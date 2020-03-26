@@ -92,7 +92,7 @@ const Personal = () => {
                 onPress={takePhoto}
               >
                 <Image
-                  source={{uri: getImgUrl}}
+                  source={getImgUrl ? {uri: getImgUrl} : require('../images/head.png')}
                   style={{
                     height: lenUnified(156),
                     width: lenUnified(156),

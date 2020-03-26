@@ -76,6 +76,12 @@ const Personal = () => {
       Actions.push('fabu');
     }
   }
+
+  function exit() {
+    // AsyncStorage.setItem('user', '');
+    AsyncStorage.clear();
+    Actions.replace('login');
+  }
   
   return (
     <>
@@ -188,13 +194,15 @@ const Personal = () => {
               ))
             }
           </View>
-          <Text style={{
-            height: lenUnified(100),
-            lineHeight: lenUnified(100),
-            textAlign: "center",
-            fontSize: 12,
-            color: '#ababab'
-          }}>BINNU DHILLON  |  退出</Text>
+          <TouchableOpacity onPress={exit}>
+            <Text style={{
+              height: lenUnified(100),
+              lineHeight: lenUnified(100),
+              textAlign: "center",
+              fontSize: 12,
+              color: '#ababab'
+            }}>BINNU DHILLON  |  退出</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </>

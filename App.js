@@ -1,29 +1,40 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StatusBar,
+  View,
   Text,
   BackHandler,
-  ToastAndroid
+  ToastAndroid,
+  AsyncStorage
+
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
+import SplashScreen from 'react-native-splash-screen';
 import { Router, Scene, Tabs, Actions } from 'react-native-router-flux';
 import Home from './views/Home';
-// import Personal from './views/Person(1)';
 import Personal from './views/Personal';
 import List from './views/List';
 import Fabu from './views/Fabu';
+import Login from './views/Login';
+import Register from './views/Register';
+import SwiperPage from './views/SwiperPage';
+
 console.disableYellowBox = true;
 
 const App = () => {
-
+  let [isLogin, setLogin] = useState(false);
+	let [isInstall, setInstall] = useState(true);
+  let now;
+  
   useEffect(() => {
-    BackHandler.addEventListener('hardwareBackPress', onBackAndroid)
+    init();
+    BackHandler.addEventListener('hardwareBackPress', onBackAndroid);
   });
 
-  var now;
   function onBackAndroid() {
     // console.log(Actions.currentScene);
-    if (Actions.currentScene != '_one') {
+    // console.log(isLogin);
+    if (Actions.currentScene != 'home' && Actions.currentScene != '_home' && Actions.currentScene != 'login' && Actions.currentScene != 'register') {
       Actions.pop();
       return true;
     } else {
@@ -37,6 +48,41 @@ const App = () => {
     }
   }
 
+  let init = () => {
+		AsyncStorage.getItem('isInstall')
+		.then(res => {
+			// console.log('isinstall', res)
+			if (res) {
+				setInstall(false);
+			}
+		})
+		AsyncStorage.getItem('user')
+		.then(res => {
+			let user = JSON.parse(res);
+			console.log(user);
+			if (!user) {
+				SplashScreen.hide();
+			}
+			if (user && user.isok) {
+				setLogin(true);
+				SplashScreen.hide();
+			}
+		})
+  }
+  
+  let afterInstall = () => {
+		console.log('after install');
+		setInstall(false);
+  }
+  
+	if (isInstall) {
+		return (
+      <View style={{flex:1}}>
+        <SwiperPage afterInstall={afterInstall}/>
+      </View>
+    )
+  }
+
   return (
     <>
       <StatusBar backgroundColor="#f23030" barStyle="light-content"/>
@@ -47,7 +93,7 @@ const App = () => {
             activeTintColor="#f23030"
           >
             <Scene
-              key="one"
+              key="home"
               icon={({focused}) => <Icon color={focused ? '#f23030' : '#ababab'} name="home" size={26}/>}
               component={Home}
               title="首页"
@@ -86,6 +132,10 @@ const App = () => {
               // onLeft={Actions.pop}
               hideNavBar={false}
             />
+          <Scene initial={!isLogin} key="lrin" hideNavBar>
+            <Scene key="login" component={Login}/>
+            <Scene key="register" component={Register}/>
+          </Scene>
         </Scene>
       </Router>
     </>

@@ -28,20 +28,13 @@ export default class Login extends Component {
   pwdhandle = (text) => {
     this.setState({pwd: text})
   }
-  login = () => {
-    this.setState({isloading: '登 录 中。。。。。。'});
-    myFetch.post('/api/login',{
+  register = () => {
+    this.setState({isloading: '注 册 中。。。。。。'});
+    myFetch.post('/api/register', {
       username: this.state.username,
       pwd: this.state.pwd}
     ).then(res => {
-      if (res.data.isok) {
-        AsyncStorage.setItem('user', JSON.stringify(res.data))
-        .then(() => {
-          Actions.replace('home');
-        })
-      } else {
-        this.setState({isloading: '用户名或密码错误！！！'});
-      }
+      Actions.replace('login')
     })
   }
 
@@ -50,8 +43,7 @@ export default class Login extends Component {
       <View style={{flex: 1,justifyContent: 'center'}}>
         <View style={{ alignItems: 'center'}}>
           <Text>{this.state.isloading}</Text>
-          <Text>登录页</Text>
-          <Text>用户名：asd   密码：123456</Text>
+          <Text>注册页</Text>
           <View style={{
             width: '80%',
             marginRight: 10,
@@ -85,9 +77,9 @@ export default class Login extends Component {
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            onPress={this.login}
+            onPress={this.register}
           >
-            <Text>登录</Text>
+            <Text>注册</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             style={{
@@ -98,9 +90,9 @@ export default class Login extends Component {
               alignItems: 'center',
               justifyContent: 'center'
             }}
-            onPress={() => {Actions.replace('register')}}
+            onPress={() => {Actions.replace('login')}}
           >
-            <Text>注册</Text>
+            <Text>返回登录页</Text>
           </TouchableOpacity>
         </View>
       </View>

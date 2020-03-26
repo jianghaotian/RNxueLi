@@ -79,10 +79,11 @@ const App = () => {
               component={Fabu}
               title="我的发布"
               navigationBarStyle={{backgroundColor:'#f23030'}}
+              navBarButtonColor='#fff'
               titleStyle={{color:'#fff',textAlign:'center',flex:1}}
               renderRightButton={()=><Icon color='#fff' name="ellipsis1" size={26} style={{marginRight:20}}/>}
-              renderLeftButton={()=><Icon color='#fff' name="left" size={20} style={{marginLeft:20}}/>}
-              // onLeft={()=>{console.log(233333)}}
+              // renderLeftButton={()=><Icon color='#fff' name="left" size={20} style={{marginLeft:20}}/>}
+              // onLeft={Actions.pop}
               hideNavBar={false}
             />
         </Scene>

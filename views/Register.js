@@ -5,7 +5,9 @@ import {
   Image,
   TextInput,
   AsyncStorage,
-  TouchableOpacity
+  ToastAndroid,
+  TouchableOpacity,
+  Alert
 } from 'react-native';
 
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -29,13 +31,25 @@ export default class Login extends Component {
     this.setState({pwd: text})
   }
   register = () => {
-    this.setState({isloading: '注 册 中。。。。。。'});
-    myFetch.post('/api/register', {
-      username: this.state.username,
-      pwd: this.state.pwd}
-    ).then(res => {
-      Actions.replace('login')
-    })
+    if (this.state.username == '' || this.state.pwd == '') {
+      Alert.alert(
+        '',
+        '用户名或密码不能为空',
+        [
+          {text: '确定', onPress: () => {}},
+        ],
+        { cancelable: false }
+      )
+    } else {
+      this.setState({isloading: '注 册 中。。。。。。'});
+
+      myFetch.post('/api/register', {
+        username: this.state.username,
+        pwd: this.state.pwd}
+      ).then(res => {
+        Actions.replace('login')
+      })
+    }
   }
 
   render() {

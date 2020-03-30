@@ -34,7 +34,7 @@ export default class Login extends Component {
       username: this.state.username,
       pwd: this.state.pwd}
     ).then(res => {
-      if (res.data.isok) {
+      if (!res.data.status) {
         AsyncStorage.setItem('user', JSON.stringify(res.data))
         .then(() => {
           Actions.replace('home');

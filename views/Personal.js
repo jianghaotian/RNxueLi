@@ -78,8 +78,7 @@ const Personal = () => {
   }
 
   function exit() {
-    // AsyncStorage.setItem('user', '');
-    AsyncStorage.clear();
+    AsyncStorage.setItem('user', '');
     Actions.replace('login');
   }
   
